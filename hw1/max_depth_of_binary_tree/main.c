@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-define NUM_NODE 7 
-define null 101 
+#define NUM_NODE 7  // could be elimiated?
+#define null 101
 
 /**
  * Definition for a binary tree node.
@@ -15,55 +15,63 @@ typedef struct TreeNode {
 } treenode_t;
 
 treenode_t* init_node(int value) {
-    TeeNode *new_node = malloc(sizeof(treenode_t));
+    treenode_t *new_node = malloc(sizeof(treenode_t));
     new_node->val = value;
     new_node->left = NULL;
     new_node->right = NULL;
+
+    return new_node;
 }
 
-/**
- * list_cur_idx is increased by 1 on each check of whether node is null
- */
+void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_idx) {
+   /* Assume that root may not be NULL
+    * The checker will early terminate subtrees after level-2 tree
+    */
+   //if (tree_list[parent_idx++] == null) {
+   //    printf("Parent is null, skip process to add child nodes.\n");
+   //    return;
+   //}
+   parent_idx++;
 
-void add_child_nodes(TreeNode *parent, int *tree_list[], list_cur_idx) {
-   if (tree_list[list_cur_idx++] == null) {
-       printf("Parent is null, skip process to add child nodes.\n");
-       return;
-   }
-
-   printf("Parent[%0d]\n", *parent->val);
+   printf("Parent   [%0d]=%0d\n", parent_idx-1, parent->val);
 
    // Create child nodes and links to connect parent and the nodes
-   if (tree_list[list_cur_idx] != null) {
+   if (parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
        /*
-       TeeNode *left_node = malloc(sizeof(treenode_t));
-       left_node->val = tree_list[list_cur_idx++];
+       treenode_t* left_node = malloc(sizeof(treenode_t));
+       left_node->val = tree_list[parent_idx++];
        left_node->next = NULL;
        */
-       treenode_t *left_node = init_node(tree_list[list_cur_idx++]);
+       treenode_t *left_node = init_node(tree_list[parent_idx++]);
 
        parent->left = left_node;
+
+       printf("LeftNode [%0d]=%0d\n", parent_idx-1, parent->left->val);
        
-       if ((list_cur_idx+1)+1 < NUM_NODE) // check whether the right node is existed 
-           add_child_nodes(left_node, tree_list, list_cur_idx+1);
+       if ((parent_idx+1)+1 < NUM_NODE) // check whether the right node is existed 
+           add_child_nodes(left_node, tree_list, parent_idx+1);
    } else {
        parent->left = NULL; 
+       printf("LeftNode [%0d]=NULL\n", parent_idx-1);
    }
 
-   if (tree_list[list_cur_idx] != null) {
+   if (parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
        /*
-       TeeNode *right_node = malloc(sizeof(treenode_t));
-       right_node->val = tree_list[list_cur_idx++];
+       treenode_t* right_node = malloc(sizeof(treenode_t));
+       right_node->val = tree_list[parent_idx++];
        right_node->next = NULL;
        */
-       treenode_t *right_node = init_node(tree_list[list_cur_idx++]);
+       treenode_t *right_node = init_node(tree_list[parent_idx++]);
 
        parent->right = right_node;
 
-       if ((list_cur_idx+2)+1 <  NUM_NODE)
-           add_child_nodes(right_node, tree_list, list_cur_idx+2);
+       printf("RightNode[%0d]=%0d\n", parent_idx-1, parent->right->val);
+
+       if ((parent_idx+2)+1 <  NUM_NODE)
+           add_child_nodes(right_node, tree_list, parent_idx+2);
    } else {
        parent->right = NULL;
+       printf("RightNode[%0d]=NULL\n", parent_idx-1);
    }
 }
 
@@ -83,11 +91,23 @@ int maxDepth(struct TreeNode* root){
 }
 
 int main(int argc, char const *argv[]){
-    TreeNode *root = NULL;    
-    int *tree_list = calloc(NUM_NODE, sizeof(int));
-    tree_list = {3, 9, 20, null, null, 5, 7};
+    treenode_t *root = NULL;
+    /*
+     * main.c:91:17: error: expected expression before ‘{’ token
+          91 |     tree_list = {3, 9, 20, null, null, 5, 7};
+             |                 ^
+
+       int *tree_list = (int*) calloc(NUM_NODE, sizeof(int));
+       if (tree_list==NULL) exit(1);
+       ...
+       free(tree_list);
+     */
+
+    // use Pointers to Compound Literals defined in C99, setion 12.1 in `C PROGRAMMING, A Modern Approach, 2ed`
+    int tree_list[] = {3, 9, 20, null, null, 5, 7};
 
     root = init_node(3); 
-    add_child_nodes(root, tree_list, 1);
+    add_child_nodes(root, tree_list, 0);
     maxDepth(root);
+    return 0;
 }
