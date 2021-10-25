@@ -17,7 +17,8 @@ main: main.c
 	gcc -o main main.c 
 	
 
-run: ${DIR}main 
+run: 
+	${DIR}main 
 
 clean:
 	rm -f main
