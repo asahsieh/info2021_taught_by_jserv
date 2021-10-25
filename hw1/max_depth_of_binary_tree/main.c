@@ -108,6 +108,6 @@ int main(int argc, char const *argv[]){
 
     root = init_node(3); 
     add_child_nodes(root, tree_list, 0);
-    maxDepth(root);
+    printf("\nmaxDepth(root)=%d\n", maxDepth(root));;
     return 0;
 }
