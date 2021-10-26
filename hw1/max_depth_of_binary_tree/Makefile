@@ -14,11 +14,12 @@ endif
 
 main: main.c 
 	${VECHO} "  CC\t$@\n"
-	gcc -o main main.c 
+	${CC} ${CFLAGS} -o main main.c
 	
-
 run: 
 	${DIR}main 
+debug:
+	gdb ${DIR}main
 
 clean:
 	rm -f main
