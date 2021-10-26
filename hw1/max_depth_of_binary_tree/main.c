@@ -94,13 +94,27 @@ void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_id
   */
 
 int maxDepth(struct TreeNode* root){
+    int unsigned result = 0;
+
     if (root == NULL) {
         return 0;
     } else {
+	/*
         if (root->left != NULL || root->right != NULL)
             return (1 + maxDepth(root->left) + maxDepth(root->right));
         else
             return 1;
+	*/
+
+        if (root->left == NULL && root->right == NULL) // end to traverse
+            result = 1;
+	else {
+	    result = (1+maxDepth(root->left))>(1+maxDepth(root->right))?(1+maxDepth(root->left)):(1+maxDepth(root->right));
+	}
+	print_sub_tree(root);
+        printf("*Result of maxDepth = %d\n", result);
+
+        return result;
     }
 }
 
