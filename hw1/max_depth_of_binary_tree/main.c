@@ -31,43 +31,42 @@ void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_id
    //    printf("Parent is null, skip process to add child nodes.\n");
    //    return;
    //}
-   parent_idx++;
-
-   printf("Parent   [%0d]=%0d\n", parent_idx-1, parent->val);
+ 
+   printf("Parent   [%0d]=%0d\n", parent_idx, parent->val);
 
    // Create child nodes and links to connect parent and the nodes
-   if (parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
+   if (++parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
        /*
        treenode_t* left_node = malloc(sizeof(treenode_t));
        left_node->val = tree_list[parent_idx++];
        left_node->next = NULL;
        */
-       treenode_t *left_node = init_node(tree_list[parent_idx++]);
-
+       treenode_t *left_node = init_node(tree_list[parent_idx]);
        parent->left = left_node;
 
-       printf("LeftNode [%0d]=%0d\n", parent_idx-1, parent->left->val);
-       
-       if ((parent_idx+1)+1 < NUM_NODE) // check whether the right node is existed 
+       printf("LeftNode [%0d]=%0d\n", parent_idx, parent->left->val);
+
+       // Check whether the right node is existed
+       if ((parent_idx+1)+1 < NUM_NODE)
            add_child_nodes(left_node, tree_list, parent_idx+1);
    } else {
        parent->left = NULL; 
-       printf("LeftNode [%0d]=NULL\n", parent_idx-1);
+       printf("LeftNode [%0d]=NULL\n", parent_idx);
    }
 
-   if (parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
+   if (++parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
        /*
        treenode_t* right_node = malloc(sizeof(treenode_t));
        right_node->val = tree_list[parent_idx++];
        right_node->next = NULL;
        */
-       treenode_t *right_node = init_node(tree_list[parent_idx++]);
+       treenode_t *right_node = init_node(tree_list[parent_idx]);
 
        parent->right = right_node;
 
-       printf("RightNode[%0d]=%0d\n", parent_idx-1, parent->right->val);
+       printf("RightNode[%0d]=%0d\n", parent_idx, parent->right->val);
 
-       if ((parent_idx+2)+1 <  NUM_NODE)
+       if ((parent_idx+2)+1 < NUM_NODE)
            add_child_nodes(right_node, tree_list, parent_idx+2);
    } else {
        parent->right = NULL;
@@ -94,7 +93,7 @@ int main(int argc, char const *argv[]){
     treenode_t *root = NULL;
     /*
      * main.c:91:17: error: expected expression before ‘{’ token
-          91 |     tree_list = {3, 9, 20, null, null, 5, 7};
+          91 |     tree_list = {3, 9, 20, null, null, 15, 7};
              |                 ^
 
        int *tree_list = (int*) calloc(NUM_NODE, sizeof(int));
@@ -104,7 +103,7 @@ int main(int argc, char const *argv[]){
      */
 
     // use Pointers to Compound Literals defined in C99, setion 12.1 in `C PROGRAMMING, A Modern Approach, 2ed`
-    int tree_list[] = {3, 9, 20, null, null, 5, 7};
+    int tree_list[] = {3, 9, 20, null, null, 15, 7};
 
     root = init_node(3); 
     add_child_nodes(root, tree_list, 0);
