@@ -23,6 +23,21 @@ treenode_t* init_node(int value) {
     return new_node;
 }
 
+void print_sub_tree(treenode_t *parent) {
+   printf("\n===== Print_sub_tree =====\n");
+   printf("\tParent[%0d]\n", parent->val);
+   printf("\t/\t\\\n");
+
+   if (parent->left != NULL) {
+       printf("LeftNode[%0d]", parent->left->val);
+   } else printf("\tNULL");
+   if (parent->right != NULL) {
+       printf("\tRightNode[%0d]", parent->right->val);
+   } else printf("\tNULL");
+
+   printf("\n");
+}
+
 void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_idx) {
    /* Assume that root may not be NULL
     * The checker will early terminate subtrees after level-2 tree
@@ -105,8 +120,8 @@ int main(int argc, char const *argv[]){
     // use Pointers to Compound Literals defined in C99, setion 12.1 in `C PROGRAMMING, A Modern Approach, 2ed`
     int tree_list[] = {3, 9, 20, null, null, 15, 7};
 
-    root = init_node(3); 
+    root = init_node(tree_list[0]);
     add_child_nodes(root, tree_list, 0);
-    printf("\nmaxDepth(root)=%d\n", maxDepth(root));;
+    printf("\nmaxDepth(root)=%d\n", maxDepth(root));
     return 0;
 }
