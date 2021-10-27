@@ -47,7 +47,7 @@ void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_id
    //    return;
    //}
  
-   printf("Parent   [%0d]=%0d\n", parent_idx, parent->val);
+   printf("Parent   [%0d]\n", parent->val);
 
    // Create child nodes and links to connect parent and the nodes
    if (++parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
@@ -59,16 +59,17 @@ void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_id
        treenode_t *left_node = init_node(tree_list[parent_idx]);
        parent->left = left_node;
 
-       printf("LeftNode [%0d]=%0d\n", parent_idx, parent->left->val);
+       printf("LeftNode [%0d]\n", parent->left->val);
 
        // Check whether the right node is existed
-       if ((parent_idx+1)+1 < NUM_NODE)
+       if ((parent_idx+1)+1 < NUM_NODE) {
            add_child_nodes(left_node, tree_list, parent_idx+1);
+	   printf("\n");
+       }
    } else {
        parent->left = NULL; 
-       printf("LeftNode [%0d]=NULL\n", parent_idx);
+       printf("LeftNode [NULL]\n");
    }
-
    if (++parent_idx < NUM_NODE && tree_list[parent_idx] != null) {
        /*
        treenode_t* right_node = malloc(sizeof(treenode_t));
@@ -79,13 +80,15 @@ void add_child_nodes(treenode_t *parent, int tree_list[], unsigned int parent_id
 
        parent->right = right_node;
 
-       printf("RightNode[%0d]=%0d\n", parent_idx, parent->right->val);
+       printf("RightNode[%0d]\n", parent->right->val);
 
-       if ((parent_idx+2)+1 < NUM_NODE)
+       if ((parent_idx+2)+1 < NUM_NODE) {
            add_child_nodes(right_node, tree_list, parent_idx+2);
+	   printf("\n");
+       }
    } else {
        parent->right = NULL;
-       printf("RightNode[%0d]=NULL\n", parent_idx-1);
+       printf("RightNode[NULL]\n");
    }
 }
 
