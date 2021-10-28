@@ -102,20 +102,12 @@ int maxDepth(struct TreeNode* root){
     if (root == NULL) {
         return 0;
     } else {
-	/*
-        if (root->left != NULL || root->right != NULL)
-            return (1 + maxDepth(root->left) + maxDepth(root->right));
-        else
-            return 1;
-	*/
+        result = 1;
 
-        if (root->left == NULL && root->right == NULL) // end to traverse
-            result = 1;
-	else {
-	    //result = (1+maxDepth(root->left))>(1+maxDepth(root->right))?(1+maxDepth(root->left)):(1+maxDepth(root->right));
+        if (root->left != NULL || root->right != NULL) {
 	    maxDepth_left  = maxDepth(root->left);
 	    maxDepth_right = maxDepth(root->right);
-	    result = 1 + (maxDepth_left>maxDepth_right ? maxDepth_left:maxDepth_right);
+	    result += (maxDepth_left>maxDepth_right ? maxDepth_left:maxDepth_right);
 	}
 	print_sub_tree(root);
         printf("* maxDepth_left=%d maxDepth_right=%d result=%d\n", maxDepth_left, maxDepth_right, result);
