@@ -1,3 +1,3 @@
-# info2021_teached_by_jserv
+# info2021_taught_by_jserv
 
-Homeworks for the course info2021 teached by Jserv in NCKU, Taiwan.
+Homeworks for the course info2021 taught by Jserv in NCKU, Taiwan.
